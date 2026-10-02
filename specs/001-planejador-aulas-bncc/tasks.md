@@ -40,7 +40,7 @@ graph TD
 ### Banco de Dados e Prisma
 - [ ] T007 Modelar o schema declarativo em `apps/api/prisma/schema.prisma` com as entidades `User`, `RefreshToken`, `BnccSkill`, `Plan`, `PlanSkill` e `AiRun`, garantindo restrições `"User.email @unique"`, `"RefreshToken.tokenHash @unique"`, `"BnccSkill.codigo @unique"` e enum `PlanStatus` (`RASCUNHO`).
 - [ ] T008 Gerar migração inicial versionada do banco de dados executando Prisma Migrate em `apps/api/prisma/migrations/`.
-- [ ] T009 Implementar script de seed idempotente em `apps/api/prisma/seed.ts` criando as contas de demonstração (`ana@demo.bncc.br` e `marcos@demo.bncc.br` com senhas via `bcrypt.hash`) e populando as 5 habilidades iniciais a partir de `docs/data/bncc-recorte.json` via `upsert`.
+- [ ] T009 Implementar script de seed idempotente em `apps/api/prisma/seed.ts` criando as contas de demonstração (`ana@demo.bncc.br` e `marcos@demo.bncc.br` com senhas via `bcrypt.hash`) e populando as 5 habilidades iniciais a partir de `data/bncc-recorte.json` via `upsert`.
 
 ### Autenticação Docente e Catálogo BNCC
 - [ ] T010 [P] [US1] Implementar serviço de autenticação em `apps/api/src/modules/auth/auth.service.ts` com validação de credenciais via `bcrypt.compare`, emissão de Access Token curto (15 minutos) e persistência exclusiva do hash SHA-256 do Refresh Token com validade de 8 horas (`expiresAt = now() + 8h`).
