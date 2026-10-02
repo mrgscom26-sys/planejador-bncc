@@ -1,0 +1,439 @@
+openapi: 3.1.0
+info:
+  title: API Planejador BNCC
+  description: API REST para autenticação docente, consulta ao catálogo BNCC e gestão de rascunhos de aulas com geração assistida por IA.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001/api
+    description: Servidor de desenvolvimento local
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      summary: Autentica o professor com e-mail e senha
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: ana@demo.bncc.br
+                password:
+                  type: string
+                  example: demo123
+      responses:
+        '200':
+          description: Autenticado com sucesso. Define cookie HttpOnly com o refresh token.
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: bncc_refresh_token=...; Path=/api/auth; HttpOnly; SameSite=Strict
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [accessToken, user]
+                properties:
+                  accessToken:
+                    type: string
+                    description: JWT de curta duração (15 min)
+                  user:
+                    $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/refresh:
+    post:
+      summary: Renova o Access Token usando o Refresh Token em cookie HttpOnly
+      security: []
+      parameters:
+        - in: header
+          name: x-requested-with
+          required: false
+          schema:
+            type: string
+            example: XMLHttpRequest
+      responses:
+        '200':
+          description: Novo par de tokens emitido
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [accessToken, user]
+                properties:
+                  accessToken:
+                    type: string
+                  user:
+                    $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Refresh token expirado ou inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/logout:
+    post:
+      summary: Encerra a sessão e revoga o refresh token
+      responses:
+        '200':
+          description: Logout concluído, cookie removido
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: bncc_refresh_token=; Max-Age=0; Path=/api/auth
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+
+  /auth/me:
+    get:
+      summary: Retorna os dados do professor autenticado
+      responses:
+        '200':
+          description: Perfil do usuário logado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /bncc/skills:
+    get:
+      summary: Consulta o catálogo oficial de habilidades BNCC
+      parameters:
+        - in: query
+          name: nivel
+          schema:
+            type: string
+          description: Nível de ensino (ex. Ensino Fundamental)
+        - in: query
+          name: ano
+          schema:
+            type: integer
+          description: Ano escolar (ex. 1, 2, 5)
+        - in: query
+          name: eixo
+          schema:
+            type: string
+          description: Eixo temático
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Busca por código ou termo na descrição
+      responses:
+        '200':
+          description: Lista de habilidades correspondentes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BnccSkill'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /plans:
+    get:
+      summary: Lista todos os rascunhos do professor autenticado
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          description: Busca por termo no título ou disciplina
+      responses:
+        '200':
+          description: Lista de rascunhos pertencentes estritamente ao usuário
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanSummary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /plans/generate:
+    post:
+      summary: Solicita a geração assistida por IA e cria o rascunho atomicamente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [skillIds, title, instructionalGoal, durationMinutes, useDigitalResources]
+              properties:
+                skillIds:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  maxItems: 3
+                  description: Lista de IDs das habilidades selecionadas (entre 1 e 3)
+                title:
+                  type: string
+                  minLength: 3
+                  maxLength: 120
+                  example: Água e vida no território
+                instructionalGoal:
+                  type: string
+                  minLength: 5
+                  example: Propor investigação do uso da água na escola conectando ao ciclo hidrológico.
+                durationMinutes:
+                  type: integer
+                  minimum: 10
+                  maximum: 480
+                  example: 50
+                useDigitalResources:
+                  type: boolean
+                  example: true
+      responses:
+        '201':
+          description: Plano gerado com sucesso pela IA e persistido como RASCUNHO
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanDetail'
+        '400':
+          description: Parâmetros de validação inválidos (ex. habilidades fora de 1-3, duração inválida)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '502':
+          description: Falha na resposta ou indisponibilidade da IA (nenhum plano salvo)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '504':
+          description: Timeout estrito de 45s excedido (nenhum plano salvo)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /plans/{id}:
+    get:
+      summary: Obtém os detalhes completos de um rascunho de aula
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalhes do rascunho com conteúdo Markdown
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Plano não encontrado ou pertencente a outro professor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      summary: Salva explicitamente as alterações do rascunho (título e Markdown)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, markdownContent]
+              properties:
+                title:
+                  type: string
+                  minLength: 3
+                  maxLength: 120
+                markdownContent:
+                  type: string
+                  minLength: 1
+      responses:
+        '200':
+          description: Rascunho salvo com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Plano não encontrado ou pertencente a outro professor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    Unauthorized:
+      description: Não autorizado ou token ausente/expirado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    UserResponse:
+      type: object
+      required: [id, email, name, role]
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+
+    BnccSkill:
+      type: object
+      required: [id, codigo, nivel, eixo, descricao, explicacao, exemplos]
+      properties:
+        id:
+          type: string
+        codigo:
+          type: string
+          example: EF01CO01
+        nivel:
+          type: string
+          example: Ensino Fundamental
+        ano:
+          type: integer
+          nullable: true
+          example: 1
+        eixo:
+          type: string
+          example: Pensamento Computacional (PC)
+        descricao:
+          type: string
+        explicacao:
+          type: string
+        exemplos:
+          type: string
+
+    PlanSummary:
+      type: object
+      required: [id, title, durationMinutes, status, aiAssisted, updatedAt, skills]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        durationMinutes:
+          type: integer
+        status:
+          type: string
+          enum: [RASCUNHO]
+        aiAssisted:
+          type: boolean
+        updatedAt:
+          type: string
+          format: date-time
+        skills:
+          type: array
+          items:
+            type: object
+            required: [codigo, descricao]
+            properties:
+              codigo:
+                type: string
+              descricao:
+                type: string
+
+    PlanDetail:
+      type: object
+      required: [id, title, instructionalGoal, durationMinutes, useDigitalResources, status, markdownContent, aiAssisted, createdAt, updatedAt, skills]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        instructionalGoal:
+          type: string
+        durationMinutes:
+          type: integer
+        useDigitalResources:
+          type: boolean
+        status:
+          type: string
+          enum: [RASCUNHO]
+        markdownContent:
+          type: string
+        aiAssisted:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/BnccSkill'
+
+    ErrorResponse:
+      type: object
+      required: [statusCode, message]
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Dados de entrada inválidos.
+        error:
+          type: string
+          nullable: true
