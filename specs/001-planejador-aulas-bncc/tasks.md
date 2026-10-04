@@ -30,29 +30,29 @@ graph TD
 **Objetivo da Fase**: Estabelecer a infraestrutura de monorepo pnpm, banco PostgreSQL, schema relacional com migrações e seed, serviços de autenticação docente privada (com cookie HttpOnly e tokens em memória) e endpoint de consulta ao catálogo BNCC.
 
 ### Tarefas de Infraestrutura e Configuração
-- [ ] T001 Criar estrutura raiz do monorepo e workspaces em `pnpm-workspace.yaml` definindo `apps/*` e `packages/*`.
-- [ ] T002 Configurar `package.json` raiz com os scripts unificados `"dev"`, `"build"`, `"lint"`, `"typecheck"`, `"test"`, `"test:integration"`, `"db:up"`, `"db:migrate"` e `"db:seed"`.
-- [ ] T003 [P] Criar container de banco de dados relacional em `docker-compose.yml` usando imagem `postgres:16-alpine`, mapeando porta `5432`, volume persistente e healthcheck.
-- [ ] T004 [P] Criar pacote de contratos e tipos compartilhados em `packages/shared-types/package.json` e `packages/shared-types/src/index.ts` contendo DTOs de autenticação, catálogo BNCC e planos.
-- [ ] T005 [P] Inicializar projeto backend NestJS com TypeScript em `apps/api/package.json` e `apps/api/tsconfig.json` com `@nestjs/core`, `@nestjs/jwt`, `@nestjs/passport`, `cookie-parser`, `bcrypt` e `zod`.
-- [ ] T006 Implementar módulo de validação de variáveis de ambiente com Zod em `apps/api/src/config/env.config.ts` cobrindo `DATABASE_URL`, `JWT_SECRET`, `COOKIE_SECRET`, `PORT=3001`, `N8N_WEBHOOK_URL`, `N8N_API_KEY` e flags de ambiente.
+- [x] T001 Criar estrutura raiz do monorepo e workspaces em `pnpm-workspace.yaml` definindo `apps/*` e `packages/*`.
+- [x] T002 Configurar `package.json` raiz com os scripts unificados `"dev"`, `"build"`, `"lint"`, `"typecheck"`, `"test"`, `"test:integration"`, `"db:up"`, `"db:migrate"` e `"db:seed"`.
+- [x] T003 [P] Criar container de banco de dados relacional em `docker-compose.yml` usando imagem `postgres:16-alpine`, mapeando porta `5432`, volume persistente e healthcheck.
+- [x] T004 [P] Criar pacote de contratos e tipos compartilhados em `packages/shared-types/package.json` e `packages/shared-types/src/index.ts` contendo DTOs de autenticação, catálogo BNCC e planos.
+- [x] T005 [P] Inicializar projeto backend NestJS com TypeScript em `apps/api/package.json` e `apps/api/tsconfig.json` com `@nestjs/core`, `@nestjs/jwt`, `@nestjs/passport`, `cookie-parser`, `bcrypt` e `zod`.
+- [x] T006 Implementar módulo de validação de variáveis de ambiente com Zod em `apps/api/src/config/env.config.ts` cobrindo `DATABASE_URL`, `JWT_SECRET`, `COOKIE_SECRET`, `PORT=3001`, `N8N_WEBHOOK_URL`, `N8N_API_KEY` e flags de ambiente.
 
 ### Banco de Dados e Prisma
-- [ ] T007 Modelar o schema declarativo em `apps/api/prisma/schema.prisma` com as entidades `User`, `RefreshToken`, `BnccSkill`, `Plan`, `PlanSkill` e `AiRun`, garantindo restrições `"User.email @unique"`, `"RefreshToken.tokenHash @unique"`, `"BnccSkill.codigo @unique"` e enum `PlanStatus` (`RASCUNHO`).
-- [ ] T008 Gerar migração inicial versionada do banco de dados executando Prisma Migrate em `apps/api/prisma/migrations/`.
-- [ ] T009 Implementar script de seed idempotente em `apps/api/prisma/seed.ts` criando as contas de demonstração (`ana@demo.bncc.br` e `marcos@demo.bncc.br` com senhas via `bcrypt.hash`) e populando as 5 habilidades iniciais a partir de `docs/data/bncc-recorte.json` via `upsert`.
+- [x] T007 Modelar o schema declarativo em `apps/api/prisma/schema.prisma` com as entidades `User`, `RefreshToken`, `BnccSkill`, `Plan`, `PlanSkill` e `AiRun`, garantindo restrições `"User.email @unique"`, `"RefreshToken.tokenHash @unique"`, `"BnccSkill.codigo @unique"` e enum `PlanStatus` (`RASCUNHO`).
+- [x] T008 Gerar migração inicial versionada do banco de dados executando Prisma Migrate em `apps/api/prisma/migrations/`.
+- [x] T009 Implementar script de seed idempotente em `apps/api/prisma/seed.ts` criando as contas de demonstração (`ana@demo.bncc.br` e `marcos@demo.bncc.br` com senhas via `bcrypt.hash`) e populando as 5 habilidades iniciais a partir de `docs/data/bncc-recorte.json` via `upsert`.
 
 ### Autenticação Docente e Catálogo BNCC
-- [ ] T010 [P] [US1] Implementar serviço de autenticação em `apps/api/src/modules/auth/auth.service.ts` com validação de credenciais via `bcrypt.compare`, emissão de Access Token curto (15 minutos) e persistência exclusiva do hash SHA-256 do Refresh Token com validade de 8 horas (`expiresAt = now() + 8h`).
-- [ ] T011 [US1] Implementar controller de autenticação em `apps/api/src/modules/auth/auth.controller.ts` expondo `POST /api/auth/login`, `POST /api/auth/refresh` (com rotação de refresh token), `POST /api/auth/logout` (com revogação) e `GET /api/auth/me`.
-- [ ] T012 [P] [US1] Configurar bootstrap em `apps/api/src/main.ts` com `cookie-parser`, CORS restrito à origem `http://localhost:3000` com `credentials: true` e interceptor de proteção CSRF validando cabeçalho customizado em mutações.
-- [ ] T013 [P] [US1] Criar guard JWT e decorator de usuário logado em `apps/api/src/common/guards/jwt-auth.guard.ts` e `apps/api/src/common/decorators/current-user.decorator.ts`.
-- [ ] T014 [P] [US2] Implementar serviço de consulta ao catálogo em `apps/api/src/modules/bncc/bncc.service.ts` com filtros de leitura por `nivel`, `ano`, `eixo` e busca textual em `codigo` ou `descricao`.
-- [ ] T015 [US2] Implementar controller do catálogo BNCC em `apps/api/src/modules/bncc/bncc.controller.ts` expondo `GET /api/bncc/skills` protegido por `JwtAuthGuard`.
+- [x] T010 [P] [US1] Implementar serviço de autenticação em `apps/api/src/modules/auth/auth.service.ts` com validação de credenciais via `bcrypt.compare`, emissão de Access Token curto (15 minutos) e persistência exclusiva do hash SHA-256 do Refresh Token com validade de 8 horas (`expiresAt = now() + 8h`).
+- [x] T011 [US1] Implementar controller de autenticação em `apps/api/src/modules/auth/auth.controller.ts` expondo `POST /api/auth/login`, `POST /api/auth/refresh` (com rotação de refresh token), `POST /api/auth/logout` (com revogação) e `GET /api/auth/me`.
+- [x] T012 [P] [US1] Configurar bootstrap em `apps/api/src/main.ts` com `cookie-parser`, CORS restrito à origem `http://localhost:3000` com `credentials: true` e interceptor de proteção CSRF validando cabeçalho customizado em mutações.
+- [x] T013 [P] [US1] Criar guard JWT e decorator de usuário logado em `apps/api/src/common/guards/jwt-auth.guard.ts` e `apps/api/src/common/decorators/current-user.decorator.ts`.
+- [x] T014 [P] [US2] Implementar serviço de consulta ao catálogo em `apps/api/src/modules/bncc/bncc.service.ts` com filtros de leitura por `nivel`, `ano`, `eixo` e busca textual em `codigo` ou `descricao`.
+- [x] T015 [US2] Implementar controller do catálogo BNCC em `apps/api/src/modules/bncc/bncc.controller.ts` expondo `GET /api/bncc/skills` protegido por `JwtAuthGuard`.
 
 ### Testes Críticos da Fase A
-- [ ] T016 [P] [US1] Implementar testes de integração de autenticação em `apps/api/test/auth.integration.spec.ts` validando login correto (retorno de token e cookie HttpOnly SameSite=Strict), rejeição de credenciais inválidas (401), rotação de refresh token e revogação no logout.
-- [ ] T017 [P] [US2] Implementar testes de integração do catálogo BNCC em `apps/api/test/bncc.integration.spec.ts` comprovando busca de habilidades, filtros por ano/nível e natureza somente leitura.
+- [x] T016 [P] [US1] Implementar testes de integração de autenticação em `apps/api/test/auth.integration.spec.ts` validando login correto (retorno de token e cookie HttpOnly SameSite=Strict), rejeição de credenciais inválidas (401), rotação de refresh token e revogação no logout.
+- [x] T017 [P] [US2] Implementar testes de integração do catálogo BNCC em `apps/api/test/bncc.integration.spec.ts` comprovando busca de habilidades, filtros por ano/nível e natureza somente leitura.
 
 **Critério de Conclusão da Fase A**: Banco de dados migrado e semeado via Docker, API rodando em `localhost:3001`, autenticação e catálogo testados e validados com 100% de sucesso.
 

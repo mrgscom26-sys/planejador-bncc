@@ -1,0 +1,120 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum PlanStatus {
+  RASCUNHO
+}
+
+enum AiRunStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  passwordHash  String
+  name          String
+  role          String         @default("DOCENTE")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  plans         Plan[]
+  refreshTokens RefreshToken[]
+  aiRuns        AiRun[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model BnccSkill {
+  id          String      @id @default(cuid())
+  nivel       String
+  ano         Int?
+  eixo        String
+  codigo      String      @unique
+  descricao   String
+  explicacao  String
+  exemplos    String
+  createdAt   DateTime    @default(now())
+
+  planSkills  PlanSkill[]
+
+  @@index([nivel, ano])
+  @@index([codigo])
+  @@map("bncc_skills")
+}
+
+model Plan {
+  id                   String      @id @default(cuid())
+  userId               String
+  title                String
+  instructionalGoal    String
+  durationMinutes      Int
+  useDigitalResources  Boolean     @default(false)
+  status               PlanStatus  @default(RASCUNHO)
+  markdownContent      String
+  aiAssisted           Boolean     @default(true)
+  aiRunId              String?     @unique
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+
+  user                 User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aiRun                AiRun?      @relation(fields: [aiRunId], references: [id], onDelete: SetNull)
+  skills               PlanSkill[]
+
+  @@index([userId])
+  @@map("plans")
+}
+
+model PlanSkill {
+  id         String    @id @default(cuid())
+  planId     String
+  skillId    String
+  orderIndex Int       @default(1)
+
+  plan       Plan      @relation(fields: [planId], references: [id], onDelete: Cascade)
+  skill      BnccSkill @relation(fields: [skillId], references: [id], onDelete: Restrict)
+
+  @@unique([planId, skillId])
+  @@map("plan_skills")
+}
+
+model AiRun {
+  id            String      @id @default(cuid())
+  userId        String
+  requestId     String      @unique
+  promptPayload Json
+  rawResponse   Json?
+  status        AiRunStatus @default(PENDING)
+  errorMessage  String?
+  latencyMs     Int?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan          Plan?
+
+  @@index([userId])
+  @@map("ai_runs")
+}

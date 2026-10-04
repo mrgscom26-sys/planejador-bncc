@@ -1,0 +1,12 @@
+{
+  "name": "@planejador-bncc/web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo \"web dev placeholder (Fase C)\"",
+    "build": "echo \"web build placeholder (Fase C)\"",
+    "typecheck": "echo \"web typecheck placeholder (Fase C)\"",
+    "lint": "echo \"web lint placeholder (Fase C)\"",
+    "test": "echo \"web test placeholder (Fase C)\""
+  }
+}
