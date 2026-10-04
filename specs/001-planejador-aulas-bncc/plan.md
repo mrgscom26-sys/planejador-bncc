@@ -47,7 +47,7 @@ O sistema viabiliza autenticação privada com contas de demonstração (sessão
 | **III. Autorização por Propriedade Docente** | **PASS** | Todas as rotas de planos filtram por `userId`. Planos de outros professores respondem com HTTP 404, prevenindo IDOR e vazamento. |
 | **IV. Saída de IA como Rascunho Assistido** | **PASS** | Planos gerados recebem status fixo `RASCUNHO` e flag `aiAssisted=true`. Não há publicação automática nem finalização sem homologação do professor. |
 | **V. Validação Estrita e Atomicidade** | **PASS** | Transação interativa do Prisma vincula `AiRun` e `Plan`. Em falhas ou timeouts, nenhum plano parcial é salvo e `AiRun` é marcado `FAILED`. |
-| **VI. Migrations e Seeds Reproduzíveis** | **PASS** | Migrações Prisma versionadas e script de seed idempotente carregando as contas demo e o catálogo oficial de `docs/data/bncc-recorte.json`. |
+| **VI. Migrations e Seeds Reproduzíveis** | **PASS** | Migrações Prisma versionadas e script de seed idempotente carregando as contas demo e o catálogo oficial de `data/bncc-recorte.json`. |
 | **VII. Design System, Responsividade e Acessibilidade** | **PASS** | Tokens fiéis ao frame `2:11440` em CSS nativo (cores, tipografia Inter, espaçamentos, elevação). Conformidade WCAG 2.1 AA e suporte a mobile/tablet. |
 | **VIII. Testes Críticos e Higiene de Repositório** | **PASS** | Testes de integração automatizados com mock n8n local (`N8N_MOCK_ENABLED=true`). Arquivos `.env` mantidos fora do versionamento Git. |
 

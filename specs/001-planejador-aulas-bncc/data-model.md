@@ -271,4 +271,4 @@ O script de inicialização do banco (`prisma/seed.ts`) executa com idempotênci
    - `ana@demo.bncc.br`: Nome `"Profª Ana Souza"`, senha definida via variável `DEMO_PASSWORD_ANA` (default local: `demo123`), senha salva via `bcrypt.hash`.
    - `marcos@demo.bncc.br`: Nome `"Prof. Marcos Lima"`, senha definida via variável `DEMO_PASSWORD_MARCOS` (default local: `demo123`), senha salva via `bcrypt.hash`.
 2. **Catálogo BNCC**:
-   - Carrega o arquivo [`docs/data/bncc-recorte.json`](file:///C:/Users/Marcio/workspace/planejador-bncc/docs/data/bncc-recorte.json) e realiza `upsert` com base no `codigo` da habilidade (`EF01CO01`, `EF01CO02`, `EF02CO02`, `EF02CO04`, `EF02CO06`), garantindo que execuções sucessivas não criem duplicatas.
+   - Carrega o arquivo [`data/bncc-recorte.json`](file:///C:/Users/Marcio/workspace/planejador-bncc/data/bncc-recorte.json) (espelhado em [`docs/data/bncc-recorte.json`](file:///C:/Users/Marcio/workspace/planejador-bncc/docs/data/bncc-recorte.json)) e realiza `upsert` com base no `codigo` da habilidade (`EF01CO01`, `EF01CO02`, `EF02CO02`, `EF02CO04`, `EF02CO06`), garantindo que execuções sucessivas não criem duplicatas.
