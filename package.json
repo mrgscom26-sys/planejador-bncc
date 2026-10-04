@@ -1,0 +1,19 @@
+{
+  "name": "planejador-bncc",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel --filter @planejador-bncc/api --filter @planejador-bncc/web dev",
+    "build": "pnpm --filter \"@planejador-bncc/shared-types\" build && pnpm --filter \"@planejador-bncc/api\" build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:integration": "pnpm --filter \"@planejador-bncc/api\" test:integration",
+    "db:up": "docker compose up -d postgres",
+    "db:migrate": "pnpm --filter \"@planejador-bncc/api\" prisma migrate dev",
+    "db:seed": "pnpm --filter \"@planejador-bncc/api\" prisma db seed"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
