@@ -28,6 +28,15 @@ export interface PlanDetail {
 
 export interface CreatePlanDto {
   skillIds: string[];
+  title?: string;
+  instructionalGoal: string;
+  durationMinutes: number;
+  useDigitalResources: boolean;
+}
+
+export interface GeneratePlanDto {
+  skillIds: string[];
+  title: string;
   instructionalGoal: string;
   durationMinutes: number;
   useDigitalResources: boolean;
