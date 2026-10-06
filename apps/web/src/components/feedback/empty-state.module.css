@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-12) var(--spacing-6);
+  background-color: var(--color-white);
+  border: 1px dashed var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  width: 100%;
+}
+
+.iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: var(--color-blue-50);
+  color: var(--color-blue-700);
+  border-radius: 50%;
+  margin-bottom: var(--spacing-4);
+}
+
+.defaultIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-blue-900);
+  margin-bottom: var(--spacing-2);
+}
+
+.description {
+  font-size: 14px;
+  color: var(--color-neutral-500);
+  max-width: 440px;
+  line-height: 1.5;
+  margin-bottom: var(--spacing-6);
+}
+
+.action {
+  display: flex;
+  justify-content: center;
+}

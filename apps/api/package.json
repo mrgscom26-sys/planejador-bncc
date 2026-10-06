@@ -8,7 +8,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"api lint ok\"",
-    "test": "jest --config test/jest-integration.json --passWithNoTests",
+    "test": "jest --config test/jest-integration.json --runInBand --passWithNoTests",
     "test:integration": "jest --config test/jest-integration.json --runInBand",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
