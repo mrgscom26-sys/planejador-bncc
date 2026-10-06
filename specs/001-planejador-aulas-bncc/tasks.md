@@ -63,24 +63,24 @@ graph TD
 **Objetivo da Fase**: Integrar o webhook do n8n com cliente HTTP defensivo, timeout estrito de 45 segundos, ausência de retentativa automática, orquestração atômica de transação via `AiRun` e controle estrito de propriedade de planos (retornando 404 para acessos alheios).
 
 ### Integração n8n e Validação Estrita
-- [ ] T018 [P] [US3] Implementar DTOs e esquemas Zod de integração em `apps/api/src/modules/ai/dto/n8n.dto.ts` estritamente compatíveis com `docs/contracts/n8n.md` (`sessao`, `habilidade`, `instrucao`, `duracao`, `recursos_digitais` no envio; `success: true`, `answer`, `format: "markdown"` na resposta), serializando múltiplas habilidades (1 a 3) unificadas no formato `"{codigo} — {descricao}"` separadas por quebra de linha dupla (`\n\n`) dentro do campo `habilidade`.
-- [ ] T019 [US3] Implementar cliente HTTP defensivo em `apps/api/src/modules/ai/n8n.client.ts` injetando Header Auth `x-api-key`, header `x-request-id`, timeout estrito de 45s via `AbortSignal.timeout(45000)`, sem retry automático e provedor de mock local quando `N8N_MOCK_ENABLED=true`.
-- [ ] T020 [US3] Implementar serviço de orquestração de IA em `apps/api/src/modules/ai/ai.service.ts` gerenciando o ciclo de vida do registro `AiRun` (`PENDING` antes da chamada; `SUCCEEDED` ou `FAILED` após a resposta).
+- [x] T018 [P] [US3] Implementar DTOs e esquemas Zod de integração em `apps/api/src/modules/ai/dto/n8n.dto.ts` estritamente compatíveis com `docs/contracts/n8n.md` (`sessao`, `habilidade`, `instrucao`, `duracao`, `recursos_digitais` no envio; `success: true`, `answer`, `format: "markdown"` na resposta), serializando múltiplas habilidades (1 a 3) unificadas no formato `"{codigo} — {descricao}"` separadas por quebra de linha dupla (`\n\n`) dentro do campo `habilidade`.
+- [x] T019 [US3] Implementar cliente HTTP defensivo em `apps/api/src/modules/ai/n8n.client.ts` injetando Header Auth `x-api-key`, header `x-request-id`, timeout estrito de 45s via `AbortSignal.timeout(45000)`, sem retry automático e provedor de mock local quando `N8N_MOCK_ENABLED=true`.
+- [x] T020 [US3] Implementar serviço de orquestração de IA em `apps/api/src/modules/ai/ai.service.ts` gerenciando o ciclo de vida do registro `AiRun` (`PENDING` antes da chamada; `SUCCEEDED` ou `FAILED` após a resposta).
 
 ### Gestão e Atomicidade de Planos
-- [ ] T021 [US3] Implementar transação interativa de geração em `apps/api/src/modules/plans/plans.service.ts`:
+- [x] T021 [US3] Implementar transação interativa de geração em `apps/api/src/modules/plans/plans.service.ts`:
   - Se n8n responder com sucesso: criar `Plan` com status fixo `"RASCUNHO"`, `aiAssisted=true`, associar de 1 a 3 habilidades em `PlanSkill` e atualizar `AiRun` para `"SUCCEEDED"` na mesma transação atômica.
   - Se n8n falhar ou exceder 45s: atualizar `AiRun` para `"FAILED"`, não criar nenhum registro na tabela `plans` e propagar erro 502/504 para o cliente preservando dados no formulário.
-- [ ] T022 [US5] Implementar métodos de consulta privada em `apps/api/src/modules/plans/plans.service.ts`:
+- [x] T022 [US5] Implementar métodos de consulta privada em `apps/api/src/modules/plans/plans.service.ts`:
   - `listPlans(userId, query)`: retorna apenas os planos criados pelo `userId` logado.
   - `getPlanById(userId, planId)`: busca plano por `id` e `userId`; lança `NotFoundException` (404) caso o plano não exista ou pertença a outro docente.
   - `updatePlan(userId, planId, data)`: atualiza `title` e `markdownContent` apenas se `userId` for o autor; caso contrário, responde com 404.
-- [ ] T023 [US3] Implementar controller de planos em `apps/api/src/modules/plans/plans.controller.ts` expondo `POST /api/plans/generate`, `GET /api/plans`, `GET /api/plans/:id` e `PUT /api/plans/:id`.
+- [x] T023 [US3] Implementar controller de planos em `apps/api/src/modules/plans/plans.controller.ts` expondo `POST /api/plans/generate`, `GET /api/plans`, `GET /api/plans/:id` e `PUT /api/plans/:id`.
 
 ### Testes Críticos da Fase B
-- [ ] T024 [P] [US3] Implementar teste unitário do cliente n8n em `apps/api/test/n8n-client.spec.ts` validando serialização dos campos conforme `docs/contracts/n8n.md`, parsing Zod estrito da resposta e cancelamento por timeout de 45 segundos.
-- [ ] T025 [P] [US3] Implementar teste de integração de atomicidade em `apps/api/test/ai-generation.integration.spec.ts` comprovando que em caso de erro da IA ou timeout nenhum plano parcial é salvo no banco e `AiRun` é marcado como `FAILED`.
-- [ ] T026 [P] [US5] Implementar teste de autorização e isolamento em `apps/api/test/plans-privacy.integration.spec.ts` comprovando que o Usuário 2 não consegue listar, visualizar ou editar o plano do Usuário 1, recebendo HTTP 404 em todas as tentativas.
+- [x] T024 [P] [US3] Implementar teste unitário do cliente n8n em `apps/api/test/n8n-client.spec.ts` validando serialização dos campos conforme `docs/contracts/n8n.md`, parsing Zod estrito da resposta e cancelamento por timeout de 45 segundos.
+- [x] T025 [P] [US3] Implementar teste de integração de atomicidade em `apps/api/test/ai-generation.integration.spec.ts` comprovando que em caso de erro da IA ou timeout nenhum plano parcial é salvo no banco e `AiRun` é marcado como `FAILED`.
+- [x] T026 [P] [US5] Implementar teste de autorização e isolamento em `apps/api/test/plans-privacy.integration.spec.ts` comprovando que o Usuário 2 não consegue listar, visualizar ou editar o plano do Usuário 1, recebendo HTTP 404 em todas as tentativas.
 
 **Critério de Conclusão da Fase B**: Módulo de IA e Planos operando com atomicidade comprovada por testes, timeout de 45s respeitado e isolamento estrito entre usuários com respostas 404 validadas.
 
