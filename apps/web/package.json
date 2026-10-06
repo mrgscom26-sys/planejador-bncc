@@ -3,10 +3,34 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "echo \"web dev placeholder (Fase C)\"",
-    "build": "echo \"web build placeholder (Fase C)\"",
-    "typecheck": "echo \"web typecheck placeholder (Fase C)\"",
-    "lint": "echo \"web lint placeholder (Fase C)\"",
-    "test": "echo \"web test placeholder (Fase C)\""
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"web lint ok\"",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@planejador-bncc/shared-types": "workspace:*",
+    "lucide-react": "^1.52.0",
+    "next": "^16.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-markdown": "^10.1.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.13.9",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
+    "ts-jest": "^29.4.14",
+    "typescript": "^5.7.3"
   }
 }

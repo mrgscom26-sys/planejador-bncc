@@ -91,32 +91,32 @@ graph TD
 **Objetivo da Fase**: Construir o frontend Next.js na porta `3000` consumindo os tokens CSS nativos sem Tailwind, implementando os 9 frames do Figma, componentes atômicos, estados de formulário, loading, erro, listagem, empty state, split-view do editor e modal de saída com alterações não salvas.
 
 ### Fundação Frontend e Design Tokens
-- [ ] T027 [P] Inicializar projeto Next.js 15 (App Router/TypeScript) em `apps/web/package.json` e `apps/web/tsconfig.json` incluindo `lucide-react`, `react-markdown`, `remark-gfm` e `rehype-sanitize`.
-- [ ] T028 [P] Implementar tokens do Design System do Figma (`2:11440`) em `apps/web/src/styles/tokens.css` com variáveis de cores (`--color-blue-900: #173A63`, `--color-blue-700: #245F9E`, etc.), espaçamento (4 a 64px), raios (4, 8, 12, 16, 999px) e sombras (2px/10px e 14px/38px).
-- [ ] T029 [P] Criar estilos base globais em `apps/web/src/styles/globals.css` definindo tipografia `Inter`, resets acessíveis e layout flexível.
-- [ ] T030 Implementar cliente HTTP em `apps/web/src/lib/api-client.ts` com gerenciamento de Access Token em memória e interceptor automático para renovação silenciosa via `POST /api/auth/refresh`.
-- [ ] T031 Implementar contexto de autenticação em `apps/web/src/contexts/auth-context.tsx` provendo estado docente, métodos `login`, `logout` e redirecionamento seguro.
+- [x] T027 [P] Inicializar projeto Next.js 15 (App Router/TypeScript) em `apps/web/package.json` e `apps/web/tsconfig.json` incluindo `lucide-react`, `react-markdown`, `remark-gfm` e `rehype-sanitize`.
+- [x] T028 [P] Implementar tokens do Design System do Figma (`2:11440`) em `apps/web/src/styles/tokens.css` com variáveis de cores (`--color-blue-900: #173A63`, `--color-blue-700: #245F9E`, etc.), espaçamento (4 a 64px), raios (4, 8, 12, 16, 999px) e sombras (2px/10px e 14px/38px).
+- [x] T029 [P] Criar estilos base globais em `apps/web/src/styles/globals.css` definindo tipografia `Inter`, resets acessíveis e layout flexível.
+- [x] T030 Implementar cliente HTTP em `apps/web/src/lib/api-client.ts` com gerenciamento de Access Token em memória e interceptor automático para renovação silenciosa via `POST /api/auth/refresh`.
+- [x] T031 Implementar contexto de autenticação em `apps/web/src/contexts/auth-context.tsx` provendo estado docente, métodos `login`, `logout` e redirecionamento seguro.
 
 ### Componentes Reutilizáveis (Sem Tailwind)
-- [ ] T032 [P] Implementar componentes atômicos de formulário em `apps/web/src/components/ui/` (`button.tsx`, `input.tsx`, `select.tsx`, `checkbox.tsx`, `radio.tsx`, `switch.tsx`, `badge.tsx` e `chip.tsx`) usando CSS Modules.
-- [ ] T033 [P] Implementar componentes de feedback em `apps/web/src/components/feedback/` (`banner.tsx` com 4 variantes semânticas, `progress-card.tsx` com barra de progresso, `modal.tsx` com backdrop e `empty-state.tsx`).
-- [ ] T034 [P] Implementar casca da aplicação em `apps/web/src/components/layout/` (`sidebar.tsx` com menu e indicador de privacidade, `topbar.tsx` com identificação do docente e logout, e `app-shell.tsx`).
+- [x] T032 [P] Implementar componentes atômicos de formulário em `apps/web/src/components/ui/` (`button.tsx`, `input.tsx`, `select.tsx`, `checkbox.tsx`, `radio.tsx`, `switch.tsx`, `badge.tsx` e `chip.tsx`) usando CSS Modules.
+- [x] T033 [P] Implementar componentes de feedback em `apps/web/src/components/feedback/` (`banner.tsx` com 4 variantes semânticas, `progress-card.tsx` com barra de progresso, `modal.tsx` com backdrop e `empty-state.tsx`).
+- [x] T034 [P] Implementar casca da aplicação em `apps/web/src/components/layout/` (`sidebar.tsx` com menu e indicador de privacidade, `topbar.tsx` com identificação do docente e logout, e `app-shell.tsx`).
 
 ### Telas do Figma e Fluxos do Usuário
-- [ ] T035 [US1] Implementar tela de autenticação em `apps/web/src/app/login/page.tsx` fiel ao Frame 02 (`2:11755` / `docs/design/02-login-credenciais-invalidas.png`) com split 40/60 no desktop, banner de credenciais inválidas e botões de atalho "Usar conta" para `Profª Ana Souza` e `Prof. Marcos Lima`.
-- [ ] T036 [US5] Implementar tela de listagem e estado vazio em `apps/web/src/app/planos/page.tsx` fiel aos Frames 03 e 04 (`2:11830`, `2:11932`) com busca local por título, contador "X rascunhos privados", tabela com badges `RASCUNHO` + `Auxílio por IA` e Empty State quando não houver planos.
-- [ ] T037 [US2] Implementar coluna de catálogo da BNCC em `apps/web/src/app/planos/novo/components/bncc-catalog.tsx` com busca textual, selects de Nível, Ano e Eixo, exibição de cards de habilidades e seleção estrita de no mínimo 1 e no máximo 3 itens (**FR-007**), desabilitando a seleção de novas opções ao atingir o limite de 3.
-- [ ] T038 [US3] Implementar formulário de contexto pedagógico em `apps/web/src/app/planos/novo/components/plan-form.tsx` fiel ao Frame 05 (`2:11990`) com validação de duração > 0 minutos, chips de habilidades selecionadas com remoção individual `(x)` e rádio de recursos digitais.
-- [ ] T039 [US3] Integrar estados de geração de IA em `apps/web/src/app/planos/novo/page.tsx`:
+- [x] T035 [US1] Implementar tela de autenticação em `apps/web/src/app/login/page.tsx` fiel ao Frame 02 (`2:11755` / `docs/design/02-login-credenciais-invalidas.png`) com split 40/60 no desktop, banner de credenciais inválidas e botões de atalho "Usar conta" para `Profª Ana Souza` e `Prof. Marcos Lima`.
+- [x] T036 [US5] Implementar tela de listagem e estado vazio em `apps/web/src/app/planos/page.tsx` fiel aos Frames 03 e 04 (`2:11830`, `2:11932`) com busca local por título, contador "X rascunhos privados", tabela com badges `RASCUNHO` + `Auxílio por IA` e Empty State quando não houver planos.
+- [x] T037 [US2] Implementar coluna de catálogo da BNCC em `apps/web/src/app/planos/novo/components/bncc-catalog.tsx` com busca textual, selects de Nível, Ano e Eixo, exibição de cards de habilidades e seleção estrita de no mínimo 1 e no máximo 3 itens (**FR-007**), desabilitando a seleção de novas opções ao atingir o limite de 3.
+- [x] T038 [US3] Implementar formulário de contexto pedagógico em `apps/web/src/app/planos/novo/components/plan-form.tsx` fiel ao Frame 05 (`2:11990`) com validação de duração > 0 minutos, chips de habilidades selecionadas com remoção individual `(x)` e rádio de recursos digitais.
+- [x] T039 [US3] Integrar estados de geração de IA em `apps/web/src/app/planos/novo/page.tsx`:
   - Estado de preparação (Frame 06 / `2:12155`): card de progresso exibindo explicitamente o microcopy sincronizado com o timeout do backend: `"Isso pode levar até 45 segundos."` (em vez dos 60s do mockup), além de desabilitação de submissão dupla e inputs congelados.
   - Estado de falha de geração (Frame 07 / `2:12329`): banner de erro com aviso atômico, formulário 100% preservado e botão "Tentar gerar novamente".
-- [ ] T040 [US4] Implementar tela de edição e visualização formatada em `apps/web/src/app/planos/[id]/editar/page.tsx` fiel ao Frame 08 (`2:12495`) com split-view no desktop (editor e preview lado a lado) e abas no mobile/tablet (**FR-016**), barra de atalhos Markdown e sanitização estrita anti-XSS com `react-markdown` + `rehype-sanitize`.
-- [ ] T041 [US4] Implementar modal de confirmação de saída em `apps/web/src/app/planos/[id]/editar/components/exit-modal.tsx` fiel ao Frame 09 (`2:12608`), interceptando navegações e fechamento de aba quando houver alterações pendentes de salvamento.
+- [x] T040 [US4] Implementar tela de edição e visualização formatada em `apps/web/src/app/planos/[id]/editar/page.tsx` fiel ao Frame 08 (`2:12495`) com split-view no desktop (editor e preview lado a lado) e abas no mobile/tablet (**FR-016**), barra de atalhos Markdown e sanitização estrita anti-XSS com `react-markdown` + `rehype-sanitize`.
+- [x] T041 [US4] Implementar modal de confirmação de saída em `apps/web/src/app/planos/[id]/editar/components/exit-modal.tsx` fiel ao Frame 09 (`2:12608`), interceptando navegações e fechamento de aba quando houver alterações pendentes de salvamento.
 
 ### Testes Críticos da Fase C
-- [ ] T042 [P] [US1] Implementar teste de componente da tela de login em `apps/web/test/login-page.spec.tsx` verificando preenchimento via atalhos de demonstração e feedback de erro.
-- [ ] T043 [P] [US3] Implementar teste do formulário de novo plano em `apps/web/test/novo-plano.spec.tsx` verificando limite estrito de 1 a 3 habilidades e retenção dos campos após falha de geração da IA.
-- [ ] T044 [P] [US4] Implementar teste do editor de Markdown em `apps/web/test/markdown-editor.spec.tsx` validando sanitização de tags HTML perigosas (`<script>`, `<iframe>`) e alternância correta entre modo split-view e abas comutáveis.
+- [x] T042 [P] [US1] Implementar teste de componente da tela de login em `apps/web/test/login-page.spec.tsx` verificando preenchimento via atalhos de demonstração e feedback de erro.
+- [x] T043 [P] [US3] Implementar teste do formulário de novo plano em `apps/web/test/novo-plano.spec.tsx` verificando limite estrito de 1 a 3 habilidades e retenção dos campos após falha de geração da IA.
+- [x] T044 [P] [US4] Implementar teste do editor de Markdown em `apps/web/test/markdown-editor.spec.tsx` validando sanitização de tags HTML perigosas (`<script>`, `<iframe>`) e alternância correta entre modo split-view e abas comutáveis.
 
 **Critério de Conclusão da Fase C**: Todas as 9 telas do Figma implementadas, responsividade adaptada (desktop, tablet, mobile), sanitização de Markdown garantida e testes de componentes aprovados.
 

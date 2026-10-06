@@ -1,0 +1,168 @@
+.catalogCard {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-blue-900);
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--color-neutral-500);
+  margin-top: 2px;
+}
+
+.selectionCountBadge {
+  background-color: var(--color-blue-50);
+  border: 1px solid var(--color-blue-200);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.selectionCounter {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-blue-800);
+}
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.selectRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-3);
+}
+
+.skillsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  overflow-y: auto;
+  max-height: 520px;
+  padding-right: var(--spacing-1);
+}
+
+.skillItem {
+  background-color: var(--color-white);
+  border: 1.5px solid var(--color-neutral-200);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-4);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.skillItem:hover:not(.disabled) {
+  border-color: var(--color-blue-600);
+  background-color: var(--color-blue-50);
+}
+
+.skillItem.selected {
+  border-color: var(--color-blue-700);
+  background-color: #F0F6FC;
+}
+
+.skillItem.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background-color: var(--color-neutral-100);
+}
+
+.skillHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.codeAndBadges {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.code {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-blue-900);
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-neutral-300);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: var(--color-white);
+  transition: all 0.15s ease;
+}
+
+.checkbox.checked {
+  background-color: var(--color-blue-700);
+  border-color: var(--color-blue-700);
+}
+
+.description {
+  font-size: 13px;
+  color: var(--color-neutral-900);
+  line-height: 1.45;
+}
+
+.explanation {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+  font-size: 12px;
+  color: var(--color-neutral-500);
+  background-color: rgba(23, 58, 99, 0.04);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-xs);
+  line-height: 1.4;
+}
+
+.infoIcon {
+  color: var(--color-blue-700);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.emptyNotice {
+  text-align: center;
+  padding: var(--spacing-8);
+  font-size: 14px;
+  color: var(--color-neutral-500);
+}
+
+@media (max-width: 600px) {
+  .selectRow {
+    grid-template-columns: 1fr;
+  }
+}

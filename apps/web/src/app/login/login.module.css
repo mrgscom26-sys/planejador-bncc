@@ -1,0 +1,311 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Painel Esquerdo (Brand) */
+.brandPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 45%;
+  max-width: 580px;
+  background-color: var(--color-blue-900);
+  color: var(--color-white);
+  padding: var(--spacing-12) var(--spacing-10);
+  flex-shrink: 0;
+}
+
+.brandContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.brandHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.brandSymbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--color-blue-700);
+  border-radius: var(--radius-md);
+}
+
+.brandTitle {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.headline {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.subheadline {
+  font-size: 16px;
+  color: var(--color-blue-100);
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+.guarantees {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-2);
+}
+
+.guaranteeItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.guaranteeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  color: var(--color-white);
+}
+
+.guaranteeText {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.demoDisclaimer {
+  font-size: 12px;
+  color: #B7CAE0;
+  line-height: 1.5;
+}
+
+/* Área Direita (Formulário) */
+.authArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  background-color: #F5F7FA;
+  padding: var(--spacing-10) var(--spacing-6);
+  min-height: 100vh;
+}
+
+.areaHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+}
+
+.areaBrand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.areaLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-blue-700);
+  border-radius: var(--radius-sm);
+}
+
+.areaName {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-blue-900);
+  line-height: 1.2;
+}
+
+.areaTag {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-neutral-500);
+}
+
+.securityTag {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+
+.formCard {
+  width: 100%;
+  max-width: 520px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-8);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  margin: var(--spacing-6) 0;
+}
+
+.formIntro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.formTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-neutral-900);
+}
+
+.formSubtitle {
+  font-size: 14px;
+  color: var(--color-neutral-500);
+}
+
+.errorBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: #FDECEC;
+  border: 1px solid #F8C8C8;
+  border-radius: var(--radius-sm);
+}
+
+.errorIcon {
+  color: var(--color-danger-700);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.errorText {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: var(--color-neutral-900);
+  line-height: 1.4;
+}
+
+.errorTitle {
+  color: var(--color-danger-700);
+  font-weight: 600;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.submitBtn {
+  margin-top: var(--spacing-2);
+  width: 100%;
+}
+
+.demoSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.demoTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+}
+
+.demoCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-3);
+  background-color: var(--color-neutral-50);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-sm);
+}
+
+.demoInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.demoName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+}
+
+.demoCredentials {
+  font-size: 12px;
+  color: var(--color-neutral-500);
+}
+
+.demoNote {
+  font-size: 12px;
+  color: var(--color-neutral-500);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.areaFooter {
+  font-size: 12px;
+  color: var(--color-neutral-500);
+  text-align: center;
+}
+
+/* Responsividade Mobile / Tablet */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .brandPanel {
+    width: 100%;
+    max-width: none;
+    padding: var(--spacing-8) var(--spacing-6);
+  }
+
+  .headline {
+    font-size: 28px;
+  }
+
+  .authArea {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+
+  .formCard {
+    padding: var(--spacing-6);
+  }
+}

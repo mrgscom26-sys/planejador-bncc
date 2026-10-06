@@ -1,0 +1,99 @@
+.card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-blue-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-5);
+  box-shadow: var(--shadow-card);
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.spinnerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-blue-100);
+  border-top-color: var(--color-blue-700);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.titleWrapper {
+  flex: 1;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-blue-900);
+  margin-bottom: 2px;
+}
+
+.description {
+  font-size: 13px;
+  color: var(--color-neutral-500);
+  line-height: 1.4;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 6px;
+  background-color: var(--color-blue-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--spacing-3);
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-blue-700) 0%, #3B82F6 100%);
+  border-radius: var(--radius-full);
+  width: 100%;
+  animation: progressIndeterminate 2s ease-in-out infinite;
+}
+
+@keyframes progressIndeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.timeNotice {
+  color: var(--color-blue-800);
+  font-weight: 600;
+}
+
+.statusLabel {
+  color: var(--color-neutral-400);
+}
